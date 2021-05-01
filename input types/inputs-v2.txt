@@ -1,0 +1,109 @@
+dist_apple = []
+            dist_wall = []
+            dist_body = []
+            for i in range(8):
+                dist_apple.append(-1)
+                dist_body.append(-1)
+
+            # distance upwards
+            dist_wall.append(snake.y)
+            for i in range(snake.y, 0, -1):
+                if dist_apple[0] == -1:
+                    if snake.x == apples[x].x and i == apples[x].y:
+                        dist_apple[0] = i
+                if dist_body[0] == -1:
+                    for body in snake.snakebody:
+                        if snake.x == body.x and i == body.y:
+                            dist_body[0] = i
+
+            # distance downwards
+            dist_wall.append(WIN_HEIGHT - snake.y)
+            for i in range(snake.y, WIN_HEIGHT, 1):
+                if dist_apple[1] == -1:
+                    if snake.x == apples[x].x and i == apples[x].y:
+                        dist_apple[1] = i
+                if dist_body[1] == -1:
+                    for body in snake.snakebody:
+                        if snake.x == body.x and i == body.y:
+                            dist_body[1] = i
+
+            # distance to the left
+            dist_wall.append(snake.x)
+            for i in range(snake.x, 0, -1):
+                if dist_apple[2] == -1:
+                    if snake.y == apples[x].y and i == apples[x].x:
+                        dist_apple[2] = i
+                if dist_body[2] == -1:
+                    for body in snake.snakebody:
+                        if snake.y == body.y and i == body.x:
+                            dist_body[2] = i
+
+            # distance to the right
+            dist_wall.append(WIN_WIDTH - snake.x)
+            for i in range(snake.y, WIN_WIDTH, 1):
+                if dist_apple[3] == -1:
+                    if snake.y == apples[x].y and i == apples[x].x:
+                        dist_apple[3] = i
+                if dist_body[3] == -1:
+                    for body in snake.snakebody:
+                        if snake.y == body.y and i == body.x:
+                            dist_body[3] = i
+
+            # distance up-right
+            for i in range(WIN_WIDTH * 2):
+                if snake.x + i == WIN_WIDTH or snake.y - i == 0:
+                    dist_wall.append(i)
+                    break
+                if dist_apple[4] == -1:
+                    if snake.x + i == apples[x].x and snake.y - i == apples[x].y:
+                        dist_apple[4] = i
+                if dist_body[4] == -1:
+                    for body in snake.snakebody:
+                        if snake.x + i == body.x and snake.y - i == body.y:
+                            dist_body[4] = i
+                            break
+
+            # distance up-left
+            for i in range(WIN_WIDTH * 2):
+                if snake.x - i == 0 or snake.y - i == 0:
+                    dist_wall.append(i)
+                    break
+                if dist_apple[5] == -1:
+                    if snake.x - i == apples[x].x and snake.y - i == apples[x].y:
+                        dist_apple[5] = i
+                if dist_body[5] == -1:
+                    for body in snake.snakebody:
+                        if snake.x - i == body.x and snake.y - i == body.y:
+                            dist_body[5] = i
+
+            # distance down-right
+            for i in range(WIN_WIDTH * 2):
+                if snake.x + i == WIN_WIDTH or snake.y + i == WIN_HEIGHT:
+                    dist_wall.append(i)
+                    break
+                if dist_apple[6] == -1:
+                    if snake.y + i == apples[x].y and snake.x + i == apples[x].x:
+                        dist_apple[6] = i
+                if dist_body[6] == -1:
+                    for body in snake.snakebody:
+                        if snake.y + i == body.y and snake.x + i == body.x:
+                            dist_body[6] = i
+
+            # distance down-left
+            for i in range(WIN_WIDTH * 2):
+                if snake.x - i == 0 or snake.y + i == WIN_HEIGHT:
+                    dist_wall.append(i)
+                    break
+                if dist_apple[7] == -1:
+                    if snake.y + i == apples[x].y and snake.x - i == apples[x].x:
+                        dist_apple[7] = i
+                if dist_body[7] == -1:
+                    for body in snake.snakebody:
+                        if snake.y + i == body.y and snake.x - i == body.x:
+                            dist_body[7] = i
+
+            output = nets[x].activate((dist_apple[0], dist_apple[1], dist_apple[2], dist_apple[3], dist_apple[4],
+                                        dist_apple[5], dist_apple[6], dist_apple[7], dist_wall[0], dist_wall[1],
+                                        dist_wall[2], dist_wall[3], dist_wall[4], dist_wall[5], dist_wall[6],
+                                        dist_wall[7], dist_body[0], dist_body[1], dist_body[2], dist_body[3],
+                                        dist_body[4], dist_body[5], dist_body[6], dist_body[7]))

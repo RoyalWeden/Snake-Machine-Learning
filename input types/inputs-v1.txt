@@ -1,0 +1,59 @@
+field_area = WIN_WIDTH * WIN_HEIGHT / float(snake.img.get_width())
+            field_frac = float(len(snake.snakebody) / field_area)
+
+            # check if apple is in front of snake
+            apple_forw = False
+            if snake.x < apples[x].x and snake.dir == 'right':
+                apple_forw = True
+            elif snake.x > apples[x].x and snake.dir == 'left':
+                apple_forw = True
+            elif snake.y < apples[x].y and snake.dir == 'down':
+                apple_forw = True
+            elif snake.y > apples[x].y and snake.dir == 'up':
+                apple_forw = True
+
+            # check if apple is to the right of snake
+            apple_right = False
+            if snake.x < apples[x].x and snake.dir == 'up':
+                apple_right = True
+            elif snake.x > apples[x].x and snake.dir == 'down':
+                apple_right = True
+            elif snake.y < apples[x].y and snake.dir == 'right':
+                apple_right = True
+            elif snake.y > apples[x].y and snake.dir == 'left':
+                apple_right = True
+
+            # check if wall is right in front of snake
+            col_forw = False
+            if snake.x + snake.img.get_width() * 2 >= WIN_WIDTH and snake.dir == 'right':
+                col_forw = True
+            elif snake.x - snake.img.get_width() <= 0 and snake.dir == 'left':
+                col_forw = True
+            elif snake.y + snake.img.get_width() * 2 >= WIN_HEIGHT and snake.dir == 'down':
+                col_forw = True
+            elif snake.y - snake.img.get_width() <= 0 and snake.dir == 'up':
+                col_forw = True
+
+            # check if wall is right to the right of snake
+            col_right = False
+            if snake.y + snake.img.get_width() * 2 >= WIN_HEIGHT and snake.dir == 'right':
+                col_right = True
+            elif snake.y - snake.img.get_width() <= 0 and snake.dir == 'left':
+                col_right = True
+            elif snake.x - snake.img.get_width() <= 0 and snake.dir == 'down':
+                col_right = True
+            elif snake.x + snake.img.get_width() * 2 >= WIN_WIDTH and snake.dir == 'up':
+                col_right = True
+
+            # check if wall is right to the left of snake
+            col_left = False
+            if snake.y - snake.img.get_width() <= 0 and snake.dir == 'right':
+                col_left = True
+            elif snake.y + snake.img.get_width() * 2 >= WIN_HEIGHT and snake.dir == 'left':
+                col_left = True
+            elif snake.x + snake.img.get_width() * 2 >= WIN_WIDTH and snake.dir == 'down':
+                col_left = True
+            elif snake.x - snake.img.get_width() <= 0 and snake.dir == 'up':
+                col_left = True
+
+            output = nets[x].activate((snake.x, snake.y, field_frac, apple_forw, apple_right, col_forw, col_right, col_left))

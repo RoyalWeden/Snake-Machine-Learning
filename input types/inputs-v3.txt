@@ -1,0 +1,146 @@
+if snake.dir == 'right':
+                if apples[x].x == snake.x + snake.img.get_width() and apples[x].y == snake.y:
+                    forw_obj = 1
+                elif WIN_WIDTH <= snake.x + snake.img.get_width():
+                    forw_obj = 2
+                else:
+                    forw_obj = 0
+                    for body in snake.snakebody:
+                        if body.x == snake.x + snake.img.get_width() and body.y == snake.y:
+                            forw_obj = 3
+
+                if apples[x].x == snake.x and apples[x].y == snake.y + snake.img.get_height():
+                    right_obj = 1
+                elif WIN_HEIGHT <= snake.y + snake.img.get_height():
+                    right_obj = 2
+                else:
+                    right_obj = 0
+                    for body in snake.snakebody:
+                        if body.x == snake.x and body.y == snake.y + snake.img.get_height():
+                            right_obj = 3
+
+                if apples[x].x == snake.x and apples[x].y == snake.y - snake.img.get_height():
+                    left_obj = 1
+                elif 0 > snake.y - snake.img.get_height():
+                    left_obj = 2
+                else:
+                    left_obj = 0
+                    for body in snake.snakebody:
+                        if body.x == snake.x and body.y == snake.y - snake.img.get_height():
+                            left_obj = 3
+            elif snake.dir == 'left':
+                if apples[x].x == snake.x - snake.img.get_width() and apples[x].y == snake.y:
+                    forw_obj = 1
+                elif 0 > snake.x - snake.img.get_width():
+                    forw_obj = 2
+                else:
+                    forw_obj = 0
+                    for body in snake.snakebody:
+                        if body.x == snake.x - snake.img.get_width() and body.y == snake.y:
+                            forw_obj = 3
+
+                if apples[x].x == snake.x and apples[x].y == snake.y - snake.img.get_height():
+                    right_obj = 1
+                elif 0 > snake.y - snake.img.get_height():
+                    right_obj = 2
+                else:
+                    right_obj = 0
+                    for body in snake.snakebody:
+                        if body.x == snake.x and body.y == snake.y - snake.img.get_height():
+                            right_obj = 3
+
+                if apples[x].x == snake.x and apples[x].y == snake.y + snake.img.get_height():
+                    left_obj = 1
+                elif WIN_HEIGHT <= snake.y + snake.img.get_height():
+                    left_obj = 2
+                else:
+                    left_obj = 0
+                    for body in snake.snakebody:
+                        if body.x == snake.x and body.y == snake.y + snake.img.get_height():
+                            left_obj = 3
+            elif snake.dir == 'up':
+                if apples[x].y == snake.y - snake.img.get_height() and apples[x].x == snake.x:
+                    forw_obj = 1
+                elif 0 > snake.y - snake.img.get_height():
+                    forw_obj = 2
+                else:
+                    forw_obj = 0
+                    for body in snake.snakebody:
+                        if body.x == snake.x and body.y == snake.y - snake.img.get_height():
+                            forw_obj = 3
+
+                if apples[x].y == snake.y and apples[x].x == snake.x + snake.img.get_width():
+                    right_obj = 1
+                elif WIN_WIDTH <= snake.x + snake.img.get_width():
+                    right_obj = 2
+                else:
+                    right_obj = 0
+                    for body in snake.snakebody:
+                        if body.x == snake.x + snake.img.get_width() and body.y == snake.y:
+                            right_obj = 3
+
+                if apples[x].y == snake.y and apples[x].x == snake.x - snake.img.get_width():
+                    left_obj = 1
+                elif 0 > snake.x - snake.img.get_width():
+                    left_obj = 2
+                else:
+                    left_obj = 0
+                    for body in snake.snakebody:
+                        if body.x == snake.x - snake.img.get_width() and body.y == snake.y:
+                            left_obj = 3
+            elif snake.dir == 'down':
+                if apples[x].y == snake.y + snake.img.get_height() and apples[x].x == snake.x:
+                    forw_obj = 1
+                elif WIN_HEIGHT <= snake.y + snake.img.get_height():
+                    forw_obj = 2
+                else:
+                    forw_obj = 0
+                    for body in snake.snakebody:
+                        if body.x == snake.x and body.y == snake.y + snake.img.get_height():
+                            forw_obj = 3
+
+                if apples[x].y == snake.y and apples[x].x == snake.x - snake.img.get_width():
+                    right_obj = 1
+                elif 0 > snake.x - snake.img.get_width():
+                    right_obj = 2
+                else:
+                    right_obj = 0
+                    for body in snake.snakebody:
+                        if body.x == snake.x - snake.img.get_width() and body.y == snake.y:
+                            right_obj = 3
+
+                if apples[x].y == snake.y and apples[x].x == snake.x + snake.img.get_width():
+                    left_obj = 1
+                elif WIN_WIDTH <= snake.x + snake.img.get_width():
+                    left_obj = 2
+                else:
+                    left_obj = 0
+                    for body in snake.snakebody:
+                        if body.x == snake.x + snake.img.get_width() and body.y == snake.y:
+                            left_obj = 3
+
+            old_dist_to_apple = ((snake.x - apples[x].x) ** 2 + (snake.y - apples[x].y) ** 2) ** 0.5
+
+            output = nets[x].activate((forw_obj, right_obj, left_obj, old_dist_to_apple))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            new_dist_to_apple = ((snake.x - apples[x].x) ** 2 + (snake.y - apples[x].y) ** 2) ** 0.5
+
+
+            if old_dist_to_apple > new_dist_to_apple:
+                genes[x].fitness += 0.2
+            else:
+                genes[x].fitness -= 0.2
